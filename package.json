@@ -1,8 +1,9 @@
 {
   "name": "onvixtokodi",
   "version": "1.0.0",
-  "description": "onvix to kodi chrome extension",
+  "description": "ONVIX to KODI Chrome Extension",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "test"
   },
@@ -11,7 +12,8 @@
     "url": "git+https://github.com/valshin/onvixToKodi.git"
   },
   "keywords": [
-    "onvix", "kodi"
+    "onvix",
+    "kodi"
   ],
   "author": "valshin",
   "license": "MIT",

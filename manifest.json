@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "ONVIX to KODI",
+  "description": "ONVIX to KODI Chrome Extension",
+  "version": "1.0",
+  "web_accessible_resources" : [],
+  "background": {
+    "scripts": ["src/js/background.js", "libs/jquery.min.js"]
+  },
+  "content_scripts": [
+    {"js": ["src/js/main.js"], "matches": ["https://onvix.tv/*"]}
+  ],
+  "permissions": [
+    "activeTab",
+    "http://*/"
+  ]
+}
