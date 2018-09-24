@@ -14,7 +14,7 @@
       }
       const kodiButton = document.createElement('a');
       kodiButton.innerHTML = '<strong>Play on KODI</strong>';
-      kodiButton.className = "btn--default small btn-lg";
+      kodiButton.className = "btn--default small btn-lg kodi-btn";
       buttonContainer.appendChild(kodiButton);
 
       kodiButton.addEventListener('click', () => onKodiBtnClick(movieItem));
@@ -43,15 +43,25 @@
             console.log(response.msg);
           });
         }
+        async function getBestQualityMp4(playListDescriptor) {
+          const qualitiesUrl = playListDescriptor.media_files.mp4;
+          return fetch(qualitiesUrl)
+            .then(res => res.json())
+            .then(tracks => {
+              const maxQuality = Math.max(...(Object.keys(tracks).map(key => +key)));
+              return tracks[maxQuality];
+            });
+        }
 
         const movieToken = movieLink.match(tokenRegex)[1];
         const movieDescriptor = await loadMovieDescriptor(movieToken);
         const streams = Object.values(movieDescriptor.movie.player_data.streams);
         const streamToken = await askForStream(streams);
         const playListDescriptor = await getPlaylistDescriptor(movieToken, streamToken);
-        const kodiReq = await sendToKodi(playListDescriptor.media_files.hls);
-        console.log(playListDescriptor.media_files.hls);
-        console.log(kodiReq);
+        const track = await getBestQualityMp4(playListDescriptor);
+
+        const kodiReq = await sendToKodi(track);
+        console.log(track);
       }
     }
 
@@ -72,7 +82,10 @@
 
     const submitButton = modal.querySelector('#kodi-modal-submit-button');
     return new Promise(resolve => {
-      submitButton.onclick = () => resolve(streamSelect.value);
+      submitButton.onclick = () => {
+        document.getElementById('kodi-modal-dialog').style.display = 'none';
+        resolve(streamSelect.value)
+      };
     });
   }
 
@@ -178,6 +191,6 @@
     to {top: 0; opacity: 1}
 }`;
   addModal(styles, modalHtml);
-  setTimeout(() => findMovies(), 2000);
+  setInterval(() => findMovies(), 2000);
 })();
 

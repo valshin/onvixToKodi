@@ -10,6 +10,9 @@
   "content_scripts": [
     {"js": ["src/js/main.js"], "matches": ["https://onvix.tv/*"]}
   ],
+  "browser_action": {
+    "default_icon": "res/img/favicon-96x96.png"
+  },
   "permissions": [
     "activeTab",
     "http://*/"

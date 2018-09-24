@@ -61,7 +61,7 @@ chrome.runtime.onMessage.addListener(
     console.log(request.playListUrl);
     const kodiRequest =
       Promise
-        .all([clear(1), clear(2)])
+        .all([clear(0), clear(1)])
         .then(res => add(request.playListUrl))
         .then(res => play());
     sendResponse({msg: "message received", kodiRequest});
